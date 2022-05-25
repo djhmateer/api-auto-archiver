@@ -62,9 +62,6 @@ app.MapGet("/api/aa/{guid}", (Guid guid) =>
         return aaDto;
     }
 
-
-
-
     var notReady = new AADto
     {
         guid = guid,
@@ -73,11 +70,13 @@ app.MapGet("/api/aa/{guid}", (Guid guid) =>
     return notReady;
 });
 
+
 app.MapPost("/api/aa", Handler3);
 async Task<IResult> Handler3(AADto aadto)
 {
     var guid = Guid.NewGuid();
     aadto.guid = guid;
+    aadto.status = "in queue to be processed";
     string jsonString = JsonSerializer.Serialize(aadto);
 
     // write this json to disk so python app can pick it up
