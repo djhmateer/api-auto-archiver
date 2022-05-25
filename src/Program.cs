@@ -3,6 +3,29 @@ using CsvHelper;
 using CsvHelper.Configuration.Attributes;
 using Serilog;
 
+// http://hmsoftware.org/api/aa
+// API that sits in front of poll_for_file.py
+// API should write files into /home/dave/auto-archiver/poll-input
+// which {guid}.json
+//{ "url":"https://twitter.com/dave_mateer/status/1524341442738638848" }
+
+// then send back the guid to the UI (as next step may take some minutes)
+
+// python will then process
+
+// POST on /api/aa
+// GET on /api/aa/{guid} to get status and result json
+// which will be
+// 
+//{
+//    "cdn_url": "https://testhashing.fra1.cdn.digitaloceanspaces.com/web/asdfkjh-asdf/twitter__dave_mateer_status_1524341442738638848.html",
+//    "screenshot": "https://testhashing.fra1.cdn.digitaloceanspaces.com/web/asdfkjh-asdf/twitter__dave_mateer_status_15243414427386388482022-05-25T06:11:49.240868.png",
+//    "status": "twitter: success",
+//    "thumbnail": "https://testhashing.fra1.cdn.digitaloceanspaces.com/web/asdfkjh-asdf/twitter__media_FSeMVBsWUAMDEun.jpg"
+//}
+
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders();
@@ -17,12 +40,10 @@ builder.Logging.AddSerilog(logger);
 
 var app = builder.Build();
 
-logger.Information("****Starting API");
+logger.Information("****Starting Poll for file API - listening on http://hmsoftware.org/api/aa");
 
 // returns text
-app.MapGet("/textget", () =>
-    "hello from textget2"
-);
+app.MapGet("/textget", () => "hello from aa");
 
 app.MapGet("/jsonget", () =>
    // this will serialise the object and returns json by default as is of type T

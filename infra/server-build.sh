@@ -68,7 +68,7 @@ sudo apt-get update; \
 
 
 # compile and publish the api
-sudo dotnet publish /home/dave/api-security-test/ --configuration Release --output /var/www
+sudo dotnet publish /home/dave/api-auto-archiver/ --configuration Release --output /var/www
 
 # change ownership of the published files 
 sudo chown -R www-data:www-data /var/www
@@ -76,7 +76,7 @@ sudo chown -R www-data:www-data /var/www
 sudo chmod +x /var/www
 
 # for test this is a useful script to keep up to date with GH
-sudo chmod +x /home/dave/api-security-test/infra/github-update.sh
+sudo chmod +x /home/dave/api-auto-archiver/infra/github-update.sh
 
 # auto start on machine reboot
 sudo systemctl enable kestrel.service
