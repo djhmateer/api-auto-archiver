@@ -116,17 +116,19 @@ async Task<IResult> Handler3(AADto aadtoIn)
 
 app.Run();
 
-class PythonDTO
-{
-    public string Text { get; set; }
-    public string Prediction { get; set; }
-    [Name("Hate score")]
-    public string HateScore { get; set; }
-}
+//class PythonDTO
+//{
+//    public string Text { get; set; }
+//    public string Prediction { get; set; }
+//    [Name("Hate score")]
+//    public string HateScore { get; set; }
+//}
 
 class AADto
 {
+    [Name("url")]
     public string Url { get; set; }
+    [Name("guid")]
     public Guid Guid { get; set; }
 }
 
