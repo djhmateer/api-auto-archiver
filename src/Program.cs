@@ -45,13 +45,13 @@ logger.Information("****Starting Poll for file API - listening on http://hmsoftw
 // returns text
 app.MapGet("/api/aa", () => "hello from aa3");
 
-app.MapGet("/jsonget", () =>
+app.MapGet("/api/aa/{id}", (int id) =>
    // this will serialise the object and returns json by default as is of type T
    // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0#responses
-   new { Message = "hello world from jsonget" }
+   new { Message = $"id is {id}" }
 );
 
-app.MapPost("/hs", Handler3);
+app.MapPost("/api/aa", Handler3);
 async Task<IResult> Handler3(HSDto hsdtoIn)
 {
     // csv helper to write inbound hsdto to a csv
