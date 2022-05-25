@@ -1,0 +1,25 @@
+# helper file which should be checked into source control
+# copy to /etc/systemd/system/kestrel.service
+
+[Unit]
+Description=APIAutoArchiver running on ASP.NET 6 
+
+[Service]
+WorkingDirectory=/var/www
+ExecStart=/usr/bin/dotnet APIAutoArchiver.dll --urls "http://*:5000"
+
+Restart=always
+# Restart service after 10 seconds if the dotnet service crashes:
+RestartSec=10
+
+# copied from dotnet documentation at
+# https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-3.1#code-try-7
+KillSignal=SIGINT
+Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
+
+SyslogIdentifier=dotnet-api-auto-archiver
+User=www-data
+
+[Install]
+WantedBy=multi-user.target
