@@ -46,10 +46,10 @@ logger.Information("****Starting Poll for file API - listening on http://hmsoftw
 // returns text
 app.MapGet("/api/aa", () => "hello from aa3");
 
-app.MapGet("/api/aa/{id}", (Guid id) =>
+app.MapGet("/api/aa/{guid}", (Guid guid) =>
    // this will serialise the object and returns json by default as is of type T
    // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0#responses
-   new { Message = $"guid is {id}" }
+   new { Message = $"guid is {guid}" }
 );
 
 app.MapPost("/api/aa", Handler3);
