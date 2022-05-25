@@ -108,8 +108,8 @@ async Task<IResult> Handler3(AADto aadtoIn)
     //}
     var aadto = new AADto
     {
-        Url = aadtoIn.Url,
-        Guid = guid
+        url = aadtoIn.url,
+        guid = guid
     };
     return Results.Json(aadto);
 }
@@ -126,10 +126,8 @@ app.Run();
 
 class AADto
 {
-    [Name("url")]
-    public string Url { get; set; }
-    [Name("guid")]
-    public Guid Guid { get; set; }
+    public string url { get; set; }
+    public Guid guid { get; set; }
 }
 
 //class Todo
