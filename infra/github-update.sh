@@ -17,7 +17,7 @@ REMOTE=$(git rev-parse @{u});
 #if our local revision id doesn't match the remote, we will need to pull the changes
 if [ $LOCAL != $REMOTE ]; then
     echo "pulled new code and merging"
-    git pull origin master;
+    git pull origin main;
 
     echo "stopping kestrel"
     sudo systemctl stop kestrel.service
