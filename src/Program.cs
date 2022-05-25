@@ -43,7 +43,7 @@ var app = builder.Build();
 logger.Information("****Starting Poll for file API - listening on http://hmsoftware.org/api/aa");
 
 // returns text
-app.MapGet("/api/aa", () => "hello from aa");
+app.MapGet("/api/aa", () => "hello from aa2");
 
 app.MapGet("/jsonget", () =>
    // this will serialise the object and returns json by default as is of type T
