@@ -133,18 +133,23 @@ async Task<IResult> Handler3(AADto aadto)
 
 app.Run();
 
-//class PythonDTO
+//class PythonAADTO
 //{
-//    public string Text { get; set; }
-//    public string Prediction { get; set; }
-//    [Name("Hate score")]
-//    public string HateScore { get; set; }
+//    public Guid? guid { get; set; }
+//    public string? url { get; set; }
+//    public string? cdn_url { get; set; }
+//    public string? screenshot { get; set; }
+//    public string? thumbnail { get; set; }
+//    public string status { get; set; }
 //}
 
 class AADto
 {
     public Guid? guid { get; set; }
     public string? url { get; set; }
+    public string? cdn_url { get; set; }
+    public string? screenshot { get; set; }
+    public string? thumbnail { get; set; }
     public string status { get; set; }
 }
 
