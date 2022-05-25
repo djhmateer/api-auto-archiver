@@ -53,13 +53,14 @@ app.MapGet("/api/aa/{id}", (Guid id) =>
 );
 
 app.MapPost("/api/aa", Handler3);
-async Task<IResult> Handler3(AADto aadtoIn)
+async Task<IResult> Handler3(AADto aadto)
 {
-    string jsonString = JsonSerializer.Serialize(aadtoIn);
-
-    // write this json to disk
-    var path = "/home/dave/auto-archiver";
     var guid = Guid.NewGuid();
+    aadto.guid = guid;
+    string jsonString = JsonSerializer.Serialize(aadto);
+
+    // write this json to disk so python app can pick it up
+    var path = "/home/dave/auto-archiver";
     var fileName = path + $"/poll-input/{guid}.json";
     File.WriteAllText(fileName, jsonString);
 
@@ -106,11 +107,6 @@ async Task<IResult> Handler3(AADto aadtoIn)
 
     //    await Task.Delay(100);
     //}
-    var aadto = new AADto
-    {
-        url = aadtoIn.url,
-        guid = guid
-    };
     return Results.Json(aadto);
 }
 
