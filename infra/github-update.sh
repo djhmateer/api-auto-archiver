@@ -23,7 +23,7 @@ if [ $LOCAL != $REMOTE ]; then
     echo "stopping kestrel"
     sudo systemctl stop kestrel.service
 
-    sudo dotnet publish /home/dave/api-security-test/ --configuration Release --output /var/www
+    sudo dotnet publish /home/dave/api-auto-archiver/ --configuration Release --output /var/www
 
     echo "starting kestrel"
     sudo systemctl start kestrel.service
