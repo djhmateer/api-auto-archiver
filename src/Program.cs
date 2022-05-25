@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Text.Json;
 using CsvHelper;
 using CsvHelper.Configuration.Attributes;
 using Serilog;
@@ -52,53 +53,65 @@ app.MapGet("/api/aa/{id}", (Guid id) =>
 );
 
 app.MapPost("/api/aa", Handler3);
-async Task<IResult> Handler3(HSDto hsdtoIn)
+async Task<IResult> Handler3(AADto aadtoIn)
 {
-    // csv helper to write inbound hsdto to a csv
-    var recordsToWrite = new List<HSDto>();
-    recordsToWrite.Add(hsdtoIn);
+    string jsonString = JsonSerializer.Serialize(aadtoIn);
 
+    // write this json to disk
+    var path = "/home/dave/auto-archiver";
     var guid = Guid.NewGuid();
+    var fileName = path + $"/poll-input/{guid}.json";
+    File.WriteAllText(fileName, jsonString);
 
-    var path = "/home/dave/hatespeech";
-    await using (var writer = new StreamWriter($"{path}/input/{guid}.csv"))
-    await using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+    // csv helper to write inbound hsdto to a csv
+    //var recordsToWrite = new List<AADto>();
+    //recordsToWrite.Add(aadtoIn);
+
+
+    //await using (var writer = new StreamWriter($"{path}/poll-input/{guid}.json"))
+    //await using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
+    //{
+    //    csv.WriteRecords(recordsToWrite);
+    //}
+
+    //// poll the output directory
+    //var outputFile = $"{path}/output/{guid}.csv";
+    //while (true)
+    //{
+    //    if (File.Exists(outputFile))
+    //    {
+    //        var hsdto = new HSDto();
+
+    //        // found output file, convert to json object
+    //        using (var reader = new StreamReader(outputFile))
+    //        using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+    //        {
+    //            var records = csv.GetRecords<PythonDTO>();
+    //            foreach (var record in records)
+    //            {
+    //                logger.Information($"Text: {record.Text} ");
+    //                logger.Information($"Prediction: {record.Prediction} ");
+    //                logger.Information($"Score: {record.HateScore} ");
+
+    //                hsdto.Text = record.Text;
+    //                hsdto.Score = record.HateScore;
+    //                hsdto.Prediction = record.Prediction;
+    //            }
+    //        }
+
+    //        // clean up
+    //        File.Delete(outputFile);
+    //        return Results.Json(hsdto);
+    //    }
+
+    //    await Task.Delay(100);
+    //}
+    var aadto = new AADto
     {
-        csv.WriteRecords(recordsToWrite);
-    }
-
-    // poll the output directory
-    var outputFile = $"{path}/output/{guid}.csv";
-    while (true)
-    {
-        if (File.Exists(outputFile))
-        {
-            var hsdto = new HSDto();
-
-            // found output file, convert to json object
-            using (var reader = new StreamReader(outputFile))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-            {
-                var records = csv.GetRecords<PythonDTO>();
-                foreach (var record in records)
-                {
-                    logger.Information($"Text: {record.Text} ");
-                    logger.Information($"Prediction: {record.Prediction} ");
-                    logger.Information($"Score: {record.HateScore} ");
-
-                    hsdto.Text = record.Text;
-                    hsdto.Score = record.HateScore;
-                    hsdto.Prediction = record.Prediction;
-                }
-            }
-
-            // clean up
-            File.Delete(outputFile);
-            return Results.Json(hsdto);
-        }
-
-        await Task.Delay(100);
-    }
+        Url = aadtoIn.Url,
+        Guid = guid
+    };
+    return Results.Json(aadto);
 }
 
 app.Run();
@@ -111,11 +124,10 @@ class PythonDTO
     public string HateScore { get; set; }
 }
 
-class HSDto
+class AADto
 {
-    public string Text { get; set; }
-    public string? Score { get; set; }
-    public string? Prediction { get; set; }
+    public string Url { get; set; }
+    public Guid Guid { get; set; }
 }
 
 //class Todo
