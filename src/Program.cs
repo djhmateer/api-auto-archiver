@@ -46,11 +46,31 @@ logger.Information("****Starting Poll for file API - listening on http://hmsoftw
 // returns text
 app.MapGet("/api/aa", () => "hello from aa3");
 
+// eg 7da1c3b5-1dd7-45b2-bf30-1b7f61d7e331
 app.MapGet("/api/aa/{guid}", (Guid guid) =>
-   // this will serialise the object and returns json by default as is of type T
-   // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0#responses
-   new { Message = $"guid is {guid}" }
-);
+{
+    // check if output file exists yet
+    var path = "/home/dave/auto-archiver";
+    var fileName = path + $"/poll-output/{guid}.json";
+    if (File.Exists(fileName))
+    {
+        // if exists deserialise
+        var json = File.ReadAllText(fileName);
+
+        var aaDto = JsonSerializer.Deserialize<AADto>(json);
+        return aaDto;
+    }
+
+
+
+
+    var notReady = new AADto
+    {
+        guid = guid,
+        status = "processing"
+    };
+    return notReady;
+});
 
 app.MapPost("/api/aa", Handler3);
 async Task<IResult> Handler3(AADto aadto)
@@ -123,8 +143,9 @@ app.Run();
 
 class AADto
 {
-    public string url { get; set; }
-    public Guid guid { get; set; }
+    public Guid? guid { get; set; }
+    public string? url { get; set; }
+    public string status { get; set; }
 }
 
 //class Todo
