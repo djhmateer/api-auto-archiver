@@ -48,7 +48,7 @@ app.MapGet("/api/aa", () => "hello from aa3");
 app.MapGet("/api/aa/{id}", (guid id) =>
    // this will serialise the object and returns json by default as is of type T
    // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis?view=aspnetcore-6.0#responses
-   new { Message = $"id is {id}" }
+   new { Message = $"guid is {id}" }
 );
 
 app.MapPost("/api/aa", Handler3);
