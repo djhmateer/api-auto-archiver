@@ -78,8 +78,15 @@ sudo chmod +x /var/www
 # for test this is a useful script to keep up to date with GH
 sudo chmod +x /home/dave/api-auto-archiver/infra/github-update.sh
 
+# copy the service file
+# sudo cp /home/dave/api-auto-archiver/secrets-redacted/kestrel-redacted.service /etc/systemd/system/kestrel.service
+
 # auto start on machine reboot
-sudo systemctl enable kestrel.service
+# sudo systemctl enable kestrel.service
+
+# sudo systemctl start kestrel.service
+# sudo systemctl status kestrel.service
+
 
 # logs are in /var/log/syslog
 # look for dotnet-api

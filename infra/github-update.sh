@@ -8,8 +8,7 @@
 while true
 do
 
-#move into your git repo where your jekyll site is
-cd ~/api-security-test;
+cd ~/api-auto-archiver;
 
 git fetch;
 LOCAL=$(git rev-parse HEAD);
